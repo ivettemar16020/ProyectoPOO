@@ -1,7 +1,7 @@
 /**
  * @author Grupo 5
  * @date 30/09/16
- *
+ * @file: GUI.java
  */
 import java.awt.EventQueue;
 
