@@ -1,5 +1,6 @@
 /**
  * @author Grupo 5
+ * @SamanthaDuarte
  * @date 30/09/16
  * @file: GUI.java
  */
