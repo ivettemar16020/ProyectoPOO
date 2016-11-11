@@ -1,6 +1,5 @@
 /**
  * @author Grupo 5
- * @SamanthaDuarte
  * @date 30/09/16
  * @file: GUI.java
  */
@@ -25,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.event.ChangeEvent;
 import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.Box;
@@ -167,11 +167,14 @@ public class GUI {
 	
 	JLabel lblPoco_1 = new JLabel("Poco");
 	panel_1.add(lblPoco_1);
-	
+
 	sliderAgrado = new JSlider();
 	sliderAgrado.setMaximum(5);
 	sliderAgrado.setValue(3);
 	sliderAgrado.setMinimum(1);
+	int value = sliderAgrado.getValue();
+	int min = sliderAgrado.getMinimum();
+	int max = sliderAgrado.getMaximum();
 	panel_1.add(sliderAgrado);
 	
 	JLabel lblMucho_1 = new JLabel("Mucho");
@@ -271,5 +274,9 @@ public class GUI {
 	popup.show(e.getComponent(), e.getX(), e.getY());
 	}
 	});
+	}
+	
+	public void stateChanged(ChangeEvent e){
+		JSlider source = (JSlider)e.getSource();
 	}
 }
