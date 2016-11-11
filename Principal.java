@@ -9,5 +9,4 @@ public class Principal {
 		Ventana1 window = new Ventana1();
 		window.setVisible(true);
 	}
-
 }
