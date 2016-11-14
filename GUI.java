@@ -78,7 +78,7 @@ public class GUI {
 	public GUI() {
 	initialize();
 	}
-
+	
 	/**
 	* Initialize the contents of the frame.
 	*/
