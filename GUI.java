@@ -2,8 +2,6 @@
  * @author Grupo 5
  * @date 30/09/16
  * @file: GUI.java
- * Esto es un comentario de prueba
- * Que divertido
  */
 import java.awt.EventQueue;
 
@@ -80,7 +78,7 @@ public class GUI {
 	public GUI() {
 	initialize();
 	}
-	
+
 	/**
 	* Initialize the contents of the frame.
 	*/
