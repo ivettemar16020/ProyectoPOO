@@ -29,6 +29,7 @@ public class Ventana1 extends JFrame {
 	Usuario miUsuario = new Usuario();
 	final Pocket data = new Pocket();
 	final GUI window2 = new GUI();
+	final CrearUsr win3 = new CrearUsr();
 
 
 	/**
@@ -36,7 +37,7 @@ public class Ventana1 extends JFrame {
 	 */
 	public Ventana1() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 506, 350);
+		setBounds(100, 100, 445, 276);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -91,6 +92,16 @@ public class Ventana1 extends JFrame {
 				System.exit(0);
 			}
 		});
+		
+		JButton btnCrearUsuario = new JButton("Crear Usuario");
+		btnCrearUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				win3.setVisible(true);
+				dispose();
+				
+			}
+		});
+		contentPane.add(btnCrearUsuario);
 		contentPane.add(btn_salir);
 	}
 
