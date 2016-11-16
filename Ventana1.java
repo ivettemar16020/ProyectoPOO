@@ -67,8 +67,8 @@ public class Ventana1 extends JFrame {
 		Component rigidArea_1 = Box.createRigidArea(new Dimension(20, 20));
 		contentPane.add(rigidArea_1);
 		
-		miUsuario.setNombre("juanito5");
-		miUsuario.setContrasena("chanclausada46");
+		miUsuario.setNombre("yolo");
+		miUsuario.setContrasena("yolo");
 		
 		JButton btn_login = new JButton("Entrar");
 		btn_login.addActionListener(new ActionListener() {
