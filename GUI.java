@@ -2,6 +2,8 @@
  * @author Grupo 5
  * @date 30/09/16
  * @file: GUI.java
+ * Esto es un comentario de prueba
+ * Que divertido
  */
 import java.awt.EventQueue;
 
@@ -40,6 +42,7 @@ import java.util.List;
 
 import com.toedter.components.JSpinField;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JTabbedPane;
 
 public class GUI {
 
@@ -78,7 +81,7 @@ public class GUI {
 	public GUI() {
 	initialize();
 	}
-
+	
 	/**
 	* Initialize the contents of the frame.
 	*/
@@ -87,59 +90,76 @@ public class GUI {
 	miUsuario = new Usuario();
 	
 	frame = new JFrame();
-	frame.setBounds(200, 200, 550, 300);
+	frame.setBounds(200, 200, 604, 360);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.getContentPane().setLayout(new GridLayout(2, 0, 0, 5));
+	frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 5));
+	
+	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+	frame.getContentPane().add(tabbedPane);
 	
 	JPanel panelDatos = new JPanel();
-	frame.getContentPane().add(panelDatos);
-	panelDatos.setLayout(new GridLayout(0, 3, 5, 0));
+	tabbedPane.addTab("New tab", null, panelDatos, null);
+	panelDatos.setLayout(null);
 	
 	JLabel lblNombre = new JLabel("Nombre");
+	lblNombre.setBounds(0, 2, 191, 21);
 	panelDatos.add(lblNombre);
 	
 	txtNombre = new JTextField();
+	txtNombre.setBounds(196, 2, 191, 21);
 	panelDatos.add(txtNombre);
 	txtNombre.setColumns(10);
 	
 	btnAgregar = new JButton("Agregar");
+	btnAgregar.setBounds(392, 2, 191, 21);
 	panelDatos.add(btnAgregar);
 	btnAgregar.addActionListener(new ButtonLisener());
 	
 	JLabel lblAsignatura = new JLabel("Asignatura");
+	lblAsignatura.setBounds(0, 23, 191, 21);
 	panelDatos.add(lblAsignatura);
 	
 	txtAsignatura = new JTextField();
+	txtAsignatura.setBounds(196, 23, 191, 21);
 	panelDatos.add(txtAsignatura);
 	txtAsignatura.setColumns(10);
 	
 	Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+	horizontalStrut_2.setBounds(392, 23, 191, 21);
 	panelDatos.add(horizontalStrut_2);
 	
 	JLabel lblDescripcin = new JLabel("Descripci\u00F3n");
+	lblDescripcin.setBounds(0, 44, 191, 21);
 	panelDatos.add(lblDescripcin);
 	
 	txtDescripcion = new JTextField();
+	txtDescripcion.setBounds(196, 44, 191, 21);
 	panelDatos.add(txtDescripcion);
 	txtDescripcion.setColumns(10);
 	
 	btnEliminar = new JButton("Eliminar");
+	btnEliminar.setBounds(392, 44, 191, 21);
 	panelDatos.add(btnEliminar);
 	btnEliminar.addActionListener(new ButtonLisener());
 	
 	JLabel lblFechaDeEntrega = new JLabel("Fecha de Entrega");
+	lblFechaDeEntrega.setBounds(0, 65, 191, 21);
 	panelDatos.add(lblFechaDeEntrega);
 	
 	elegirFecha = new JDateChooser();
+	elegirFecha.setBounds(196, 65, 191, 21);
 	panelDatos.add(elegirFecha);
 	
 	Component horizontalStrut_3 = Box.createHorizontalStrut(20);
+	horizontalStrut_3.setBounds(392, 65, 191, 21);
 	panelDatos.add(horizontalStrut_3);
 	
 	JLabel lblDificultad = new JLabel("Dificultad");
+	lblDificultad.setBounds(0, 86, 191, 21);
 	panelDatos.add(lblDificultad);
 	
 	JPanel panel = new JPanel();
+	panel.setBounds(196, 86, 191, 21);
 	panelDatos.add(panel);
 	panel.setLayout(new GridLayout(0, 3, 0, 0));
 	
@@ -156,12 +176,15 @@ public class GUI {
 	panel.add(lblMucho);
 	
 	Component horizontalStrut = Box.createHorizontalStrut(20);
+	horizontalStrut.setBounds(392, 86, 191, 21);
 	panelDatos.add(horizontalStrut);
 	
 	JLabel lblAgrado = new JLabel("Agrado");
+	lblAgrado.setBounds(0, 107, 191, 21);
 	panelDatos.add(lblAgrado);
 	
 	JPanel panel_1 = new JPanel();
+	panel_1.setBounds(196, 107, 191, 21);
 	panelDatos.add(panel_1);
 	panel_1.setLayout(new GridLayout(0, 3, 0, 0));
 	
@@ -181,26 +204,32 @@ public class GUI {
 	panel_1.add(lblMucho_1);
 	
 	Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+	horizontalStrut_1.setBounds(392, 107, 191, 21);
 	panelDatos.add(horizontalStrut_1);
 	
 	JPanel panelTabla = new JPanel();
-	frame.getContentPane().add(panelTabla);
+	panelTabla.setBounds(0, 139, 583, 154);
+	panelDatos.add(panelTabla);
 	panelTabla.setLayout(new GridLayout(0, 1, 0, 0));
 	
 	JScrollPane scrollPane = new JScrollPane();
 	panelTabla.add(scrollPane);
-	
-	
-	tabla = new JTable();
-	tabla.setFillsViewportHeight(true);
-	scrollPane.setViewportView(tabla);
 	
 	modelo = new DefaultTableModel(); 
 	modelo.addColumn("Nombre");
 	modelo.addColumn("Asignatura");
 	modelo.addColumn("Descripcion");
 	modelo.addColumn("Fecha de Entrega");
+	
+	tabla = new JTable();
+	tabla.setFillsViewportHeight(true);
+	scrollPane.setViewportView(tabla);
 	tabla.setModel(modelo);
+	
+	JPanel panel_2 = new JPanel();
+	tabbedPane.addTab("New tab", null, panel_2, null);
+	
+	
 	
 	}
 	
