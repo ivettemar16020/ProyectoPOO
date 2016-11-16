@@ -96,7 +96,7 @@ public class CrearUsr extends JFrame {
 						String pass = pss_Pss.getText();
 						
 						
-						//Inserta los datos en la base de datos
+						 
 						String sSQL = "INSERT INTO usuario(nombreUsuario, contrasena)"
 								+ "VALUES(?,?)";
 						String mensaje = "Los datos se han insertado de manera satisfactoria";
