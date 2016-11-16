@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
@@ -34,6 +35,7 @@ import javax.swing.JTextArea;
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,8 +43,12 @@ import java.util.Date;
 import java.util.List;
 
 import com.toedter.components.JSpinField;
+import com.mysql.*;
+import java.sql.*;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JTabbedPane;
+
+import BaseDatos.MySQL;
 
 public class GUI {
 
@@ -239,40 +245,51 @@ public class GUI {
 	public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub
 	
-	if (e.getSource() == btnAgregar){
-	try {
-	String nombre = "";
-	String asignatura = "";
-	String[] colum = new String[5];
-	colum[0] = txtNombre.getText();
-	colum[1] = txtAsignatura.getText();
-	colum[2] = txtDescripcion.getText();
-	colum[3] = ((JTextField)elegirFecha.getDateEditor().getUiComponent()).getText();
-	modelo.addRow(colum);
-	tabla.setModel(modelo);
-	txtNombre.setText("");
-	txtAsignatura.setText("");
-	txtDescripcion.setText("");
-	((JTextField)elegirFecha.getDateEditor().getUiComponent()).setText("");
-	
-	
-	TableRowSorter<TableModel> sorter = new TableRowSorter<>(tabla.getModel());
-	tabla.setRowSorter(sorter);
-	List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-	 
-	int columnIndexToSort = 3;
-	sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
-	 
-	sorter.setSortKeys(sortKeys);
-	sorter.sort();
-	
-	System.out.println("Funciona");	
-	}
-	catch (Exception e1){
-	System.out.println("Error");
-	}
-	}
-
+		if (e.getSource() == btnAgregar){
+			
+			try {
+				String accion = "insertar";
+				MySQL mysql = new MySQL();
+				Connection cn = mysql.Conectar();
+				
+				String nombre = txtNombre.getText();
+				String descripcion = txtDescripcion.getText();
+				String asignatura = txtAsignatura.getText();
+				java.sql.Date sqldate = new java.sql.Date(elegirFecha.getDate().getTime());
+				int gusto =  sliderAgrado.getValue();
+				int dificultad = sliderDificultad.getValue();
+				
+				//Inserta los datos en la base de datos
+				String sSQL = "INSERT INTO tarea(nombreTarea, descripcionTarea, asignatura, fechaE, gusto, dificultad)"
+						+ "VALUES(?,?,?,?,?,?)";
+				String mensaje = "Los datos se han insertado de manera satisfactoria";
+				
+				PreparedStatement pst = cn.prepareStatement(sSQL);
+				pst.setString(1, nombre);
+				pst.setString(2, descripcion);
+				pst.setString(3, asignatura);
+				pst.setDate(4, sqldate);
+				pst.setInt(5, gusto);
+				pst.setInt(6, dificultad);
+				
+				int n = pst.executeUpdate();
+				
+				//Vacía los textfields
+				txtNombre.setText("");
+				txtAsignatura.setText("");
+				txtDescripcion.setText("");
+				((JTextField)elegirFecha.getDateEditor().getUiComponent()).setText("");
+				
+				if (n < 0){
+					JOptionPane.showMessageDialog(null, mensaje);
+				}
+				
+				
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		}
 	
 	if (e.getSource() == btnEliminar){
 	try {
@@ -287,7 +304,7 @@ public class GUI {
 	}
 	
 	
-	private static void addPopup(Component component, final JPopupMenu popup) {
+	private void addPopup(Component component, final JPopupMenu popup) {
 	component.addMouseListener(new MouseAdapter() {
 	public void mousePressed(MouseEvent e) {
 	if (e.isPopupTrigger()) {
