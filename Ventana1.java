@@ -97,8 +97,6 @@ public class Ventana1 extends JFrame {
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				win3.setVisible(true);
-				dispose();
-				
 			}
 		});
 		contentPane.add(btnCrearUsuario);

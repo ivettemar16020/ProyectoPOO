@@ -112,6 +112,7 @@ public class CrearUsr extends JFrame {
 						txt_User.setText("");
 						pss_Pss.setText("");
 						
+						dispose();
 						
 						if (n < 0){
 							JOptionPane.showMessageDialog(null, mensaje);
@@ -125,16 +126,18 @@ public class CrearUsr extends JFrame {
 				}
 			}
 		});
-		btnCrear.setBounds(85, 158, 89, 23);
+		btnCrear.setBounds(60, 158, 89, 23);
 		panel.add(btnCrear);
 		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				dispose();
 			}
 		});
-		btnSalir.setBounds(210, 158, 89, 23);
+		btnSalir.setBounds(259, 158, 89, 23);
 		panel.add(btnSalir);
+		
+		
 	}
 }
