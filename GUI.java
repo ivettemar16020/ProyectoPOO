@@ -2,10 +2,9 @@
  * @author Grupo 5
  * @date 30/09/16
  * @file: GUI.java
- * Esto es un comentario de prueba
- * Que divertido
  */
 import java.awt.EventQueue;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -23,11 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
-import javax.swing.event.ChangeEvent;
 import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.Box;
@@ -35,7 +32,6 @@ import javax.swing.JTextArea;
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,12 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.toedter.components.JSpinField;
-import com.mysql.*;
-import java.sql.*;
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JTabbedPane;
-
-import BaseDatos.MySQL;
 
 public class GUI {
 
@@ -64,6 +55,7 @@ public class GUI {
 	private JDateChooser elegirFecha;
 	private JSlider sliderAgrado;
 	private JSlider sliderDificultad;
+	private JTextField txtfrase;
 	
 	/**
 	* Launch the application.
@@ -87,7 +79,7 @@ public class GUI {
 	public GUI() {
 	initialize();
 	}
-	
+
 	/**
 	* Initialize the contents of the frame.
 	*/
@@ -96,76 +88,59 @@ public class GUI {
 	miUsuario = new Usuario();
 	
 	frame = new JFrame();
-	frame.setBounds(200, 200, 604, 360);
+	frame.setBounds(200, 200, 550, 300);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 5));
-	
-	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-	frame.getContentPane().add(tabbedPane);
+	frame.getContentPane().setLayout(new GridLayout(2, 0, 0, 5));
 	
 	JPanel panelDatos = new JPanel();
-	tabbedPane.addTab("New tab", null, panelDatos, null);
-	panelDatos.setLayout(null);
+	frame.getContentPane().add(panelDatos);
+	panelDatos.setLayout(new GridLayout(0, 3, 5, 0));
 	
 	JLabel lblNombre = new JLabel("Nombre");
-	lblNombre.setBounds(0, 2, 191, 21);
 	panelDatos.add(lblNombre);
 	
 	txtNombre = new JTextField();
-	txtNombre.setBounds(196, 2, 191, 21);
 	panelDatos.add(txtNombre);
 	txtNombre.setColumns(10);
 	
 	btnAgregar = new JButton("Agregar");
-	btnAgregar.setBounds(392, 2, 191, 21);
 	panelDatos.add(btnAgregar);
 	btnAgregar.addActionListener(new ButtonLisener());
 	
 	JLabel lblAsignatura = new JLabel("Asignatura");
-	lblAsignatura.setBounds(0, 23, 191, 21);
 	panelDatos.add(lblAsignatura);
 	
 	txtAsignatura = new JTextField();
-	txtAsignatura.setBounds(196, 23, 191, 21);
 	panelDatos.add(txtAsignatura);
 	txtAsignatura.setColumns(10);
 	
 	Component horizontalStrut_2 = Box.createHorizontalStrut(20);
-	horizontalStrut_2.setBounds(392, 23, 191, 21);
 	panelDatos.add(horizontalStrut_2);
 	
 	JLabel lblDescripcin = new JLabel("Descripci\u00F3n");
-	lblDescripcin.setBounds(0, 44, 191, 21);
 	panelDatos.add(lblDescripcin);
 	
 	txtDescripcion = new JTextField();
-	txtDescripcion.setBounds(196, 44, 191, 21);
 	panelDatos.add(txtDescripcion);
 	txtDescripcion.setColumns(10);
 	
 	btnEliminar = new JButton("Eliminar");
-	btnEliminar.setBounds(392, 44, 191, 21);
 	panelDatos.add(btnEliminar);
 	btnEliminar.addActionListener(new ButtonLisener());
 	
 	JLabel lblFechaDeEntrega = new JLabel("Fecha de Entrega");
-	lblFechaDeEntrega.setBounds(0, 65, 191, 21);
 	panelDatos.add(lblFechaDeEntrega);
 	
 	elegirFecha = new JDateChooser();
-	elegirFecha.setBounds(196, 65, 191, 21);
 	panelDatos.add(elegirFecha);
 	
 	Component horizontalStrut_3 = Box.createHorizontalStrut(20);
-	horizontalStrut_3.setBounds(392, 65, 191, 21);
 	panelDatos.add(horizontalStrut_3);
 	
 	JLabel lblDificultad = new JLabel("Dificultad");
-	lblDificultad.setBounds(0, 86, 191, 21);
 	panelDatos.add(lblDificultad);
 	
 	JPanel panel = new JPanel();
-	panel.setBounds(196, 86, 191, 21);
 	panelDatos.add(panel);
 	panel.setLayout(new GridLayout(0, 3, 0, 0));
 	
@@ -182,60 +157,50 @@ public class GUI {
 	panel.add(lblMucho);
 	
 	Component horizontalStrut = Box.createHorizontalStrut(20);
-	horizontalStrut.setBounds(392, 86, 191, 21);
 	panelDatos.add(horizontalStrut);
 	
 	JLabel lblAgrado = new JLabel("Agrado");
-	lblAgrado.setBounds(0, 107, 191, 21);
 	panelDatos.add(lblAgrado);
 	
 	JPanel panel_1 = new JPanel();
-	panel_1.setBounds(196, 107, 191, 21);
 	panelDatos.add(panel_1);
 	panel_1.setLayout(new GridLayout(0, 3, 0, 0));
 	
 	JLabel lblPoco_1 = new JLabel("Poco");
 	panel_1.add(lblPoco_1);
-
+	
 	sliderAgrado = new JSlider();
 	sliderAgrado.setMaximum(5);
 	sliderAgrado.setValue(3);
 	sliderAgrado.setMinimum(1);
-	int value = sliderAgrado.getValue();
-	int min = sliderAgrado.getMinimum();
-	int max = sliderAgrado.getMaximum();
 	panel_1.add(sliderAgrado);
 	
 	JLabel lblMucho_1 = new JLabel("Mucho");
 	panel_1.add(lblMucho_1);
 	
-	Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-	horizontalStrut_1.setBounds(392, 107, 191, 21);
-	panelDatos.add(horizontalStrut_1);
+	txtfrase = new JTextField();
+	txtfrase.setEditable(false);
+	panelDatos.add(txtfrase);
+	txtfrase.setColumns(10);
 	
 	JPanel panelTabla = new JPanel();
-	panelTabla.setBounds(0, 139, 583, 154);
-	panelDatos.add(panelTabla);
+	frame.getContentPane().add(panelTabla);
 	panelTabla.setLayout(new GridLayout(0, 1, 0, 0));
 	
 	JScrollPane scrollPane = new JScrollPane();
 	panelTabla.add(scrollPane);
+	
+	
+	tabla = new JTable();
+	tabla.setFillsViewportHeight(true);
+	scrollPane.setViewportView(tabla);
 	
 	modelo = new DefaultTableModel(); 
 	modelo.addColumn("Nombre");
 	modelo.addColumn("Asignatura");
 	modelo.addColumn("Descripcion");
 	modelo.addColumn("Fecha de Entrega");
-	
-	tabla = new JTable();
-	tabla.setFillsViewportHeight(true);
-	scrollPane.setViewportView(tabla);
 	tabla.setModel(modelo);
-	
-	JPanel panel_2 = new JPanel();
-	tabbedPane.addTab("New tab", null, panel_2, null);
-	
-	
 	
 	}
 	
@@ -245,51 +210,50 @@ public class GUI {
 	public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub
 	
-		if (e.getSource() == btnAgregar){
-			
-			try {
-				String accion = "insertar";
-				MySQL mysql = new MySQL();
-				Connection cn = mysql.Conectar();
-				
-				String nombre = txtNombre.getText();
-				String descripcion = txtDescripcion.getText();
-				String asignatura = txtAsignatura.getText();
-				java.sql.Date sqldate = new java.sql.Date(elegirFecha.getDate().getTime());
-				int gusto =  sliderAgrado.getValue();
-				int dificultad = sliderDificultad.getValue();
-				
-				//Inserta los datos en la base de datos
-				String sSQL = "INSERT INTO tarea(nombreTarea, descripcionTarea, asignatura, fechaE, gusto, dificultad)"
-						+ "VALUES(?,?,?,?,?,?)";
-				String mensaje = "Los datos se han insertado de manera satisfactoria";
-				
-				PreparedStatement pst = cn.prepareStatement(sSQL);
-				pst.setString(1, nombre);
-				pst.setString(2, descripcion);
-				pst.setString(3, asignatura);
-				pst.setDate(4, sqldate);
-				pst.setInt(5, gusto);
-				pst.setInt(6, dificultad);
-				
-				int n = pst.executeUpdate();
-				
-				//VacÃ­a los textfields
-				txtNombre.setText("");
-				txtAsignatura.setText("");
-				txtDescripcion.setText("");
-				((JTextField)elegirFecha.getDateEditor().getUiComponent()).setText("");
-				
-				if (n < 0){
-					JOptionPane.showMessageDialog(null, mensaje);
-				}
-				
-				
-			} catch (SQLException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-		}
+	if (e.getSource() == btnAgregar){
+	try {
+	String nombre = "";
+	String asignatura = "";
+	String[] colum = new String[5];
+	colum[0] = txtNombre.getText();
+	colum[1] = txtAsignatura.getText();
+	colum[2] = txtDescripcion.getText();
+	colum[3] = ((JTextField)elegirFecha.getDateEditor().getUiComponent()).getText();
+	modelo.addRow(colum);
+	tabla.setModel(modelo);
+	txtNombre.setText("");
+	txtAsignatura.setText("");
+	txtDescripcion.setText("");
+	((JTextField)elegirFecha.getDateEditor().getUiComponent()).setText("");
+	
+	
+	TableRowSorter<TableModel> sorter = new TableRowSorter<>(tabla.getModel());
+	tabla.setRowSorter(sorter);
+	List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+	 
+	int columnIndexToSort = 3;
+	sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+	 
+	sorter.setSortKeys(sortKeys);
+	sorter.sort();
+	
+	txtfrase.setVisible(true);
+	txtfrase.setVisible(true);
+
+	//String[] frases = {"Cada logro comienza con la decisión de intentarlo. -Gail Devers.", "No te preocupes por los fracasos, preocúpate por las oportunidades que pierdes cuando ni siquiera lo intentas.- Jack Canfield","El viaje es la recompensa.-Proverbio chino","El aprendizaje no es un deporte para espectadores.-D. Blocher.","La gente exitosa y no exitosa no varían mucho en sus habilidades. Varían en sus deseos de alcanzar su potencial.-John Maxwell.","No hay ascensor al éxito, tienes que tomar las escaleras.-Autor desconocido.","Tus aspiraciones son tus posibilidades.-Samuel Johnson","Lo único que se interpone entre tú y tu sueño es la voluntad de intentarlo y la creencia de que es posible conseguirlo.-Joel Brown"};
+	//Random randomito = new Random();
+	//int elemento = randomito.nextInt(8);
+	//System.out.println(frases[elemento]);
+	//txtfrase.setText(frases[elemento]);
+
+	
+	System.out.println("Funciona");	
+	}
+	catch (Exception e1){
+	System.out.println("Error");
+	}
+	}
+
 	
 	if (e.getSource() == btnEliminar){
 	try {
@@ -304,7 +268,7 @@ public class GUI {
 	}
 	
 	
-	private void addPopup(Component component, final JPopupMenu popup) {
+	private static void addPopup(Component component, final JPopupMenu popup) {
 	component.addMouseListener(new MouseAdapter() {
 	public void mousePressed(MouseEvent e) {
 	if (e.isPopupTrigger()) {
@@ -320,9 +284,5 @@ public class GUI {
 	popup.show(e.getComponent(), e.getX(), e.getY());
 	}
 	});
-	}
-	
-	public void stateChanged(ChangeEvent e){
-		JSlider source = (JSlider)e.getSource();
 	}
 }
