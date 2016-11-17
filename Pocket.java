@@ -4,6 +4,13 @@
  *
  */
 import java.util.Arrays;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
+import BaseDatos.MySQL;
 
 public class Pocket {
 		
@@ -59,17 +66,58 @@ public class Pocket {
 		String userTemp = "";
 		String passTemp = "";
 		
-		public int probarPass(String Usuario, String Pass){
+		public int probarPass(){
+			
+			
+			
 			userTemp = Ventana1.txt_user.getText();
 			passTemp = Ventana1.psw_pass.getText();
-			if (userTemp.equals(Usuario)&& passTemp.equals(Pass)){
-				return 1;
-			}
-			else {
-			return 0;
-			}
+			
+			int resultado=0;
+		    
+		    String sSQL="SELECT * FROM usuario WHERE nombreUsuario='"+userTemp+"' AND contrasena='"+passTemp+"'";
+
+		    Connection cn = null;
+			
+		    try {
+		    	MySQL mysql = new MySQL();
+		    	cn = mysql.Conectar();
+				Statement st = cn.createStatement();
+				ResultSet rs = st.executeQuery(sSQL);
+		    	
+				if(rs.next()){
+
+		            resultado=1;
+
+		        }
+				
+				
+		    } catch (SQLException ex) {
+
+		        JOptionPane.showMessageDialog(null, ex, "Error de conexión", JOptionPane.ERROR_MESSAGE);
+
+		    }finally{
+
+
+		        try {
+
+		            cn.close();
+
+		        } catch (SQLException ex) {
+
+		            JOptionPane.showMessageDialog(null, ex, "Error de desconexión", JOptionPane.ERROR_MESSAGE);
+
+		        }
+
+		    }
+
+		return resultado;
+		    
+		    
+		    
 		}
 		
 		
 	}
+
 

@@ -74,7 +74,7 @@ public class Ventana1 extends JFrame {
 		JButton btn_login = new JButton("Entrar");
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (data.probarPass(miUsuario.getNombre(), miUsuario.getContrasena()) == 1){
+				if (data.probarPass() == 1){
 					JOptionPane.showMessageDialog(null, "Bienvenido");
 					window2.frame.setVisible(true);
 					dispose();
