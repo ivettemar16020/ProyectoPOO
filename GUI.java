@@ -463,7 +463,7 @@ public class GUI {
 				
 				int n = pst.executeUpdate();
 				
-				//Vac∩┐╜a los textfields
+				//Vacia los textfields
 				txtNombre.setText("");
 				txtAsignatura.setText("");
 				txtDescripcion.setText("");
