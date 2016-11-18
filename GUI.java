@@ -2,6 +2,7 @@
  * @author Grupo 5
  * @date 30/09/16
  * @file: GUI.java
+ * Esto es un comentario de prueba
  */
 
 import java.awt.EventQueue;
@@ -52,6 +53,8 @@ import javax.swing.JTabbedPane;
 import BaseDatos.MySQL;
 import java.awt.Color;
 
+import java.util.Random;
+
 public class GUI {
 
 	JFrame frame;
@@ -69,6 +72,10 @@ public class GUI {
 	private JSlider sliderDificultad;
 	private JButton btnActualizar;
 	private JTable tblLinks;
+	private JComboBox comboBoxGrado;
+	private JComboBox comboBoxMateria;
+	private JButton btnBuscar;
+	private JTextField txtfrase;
 	
 	/**
 	* Launch the application.
@@ -236,11 +243,14 @@ public class GUI {
 			btnActualizar = new JButton("Actualizar");
 			btnActualizar.setBounds(631, 15, 140, 38);
 			panelDatos.add(btnActualizar);
+			btnActualizar.addActionListener(new ButtonLisener());
 			
-			JTextArea textArea = new JTextArea();
-			textArea.setEditable(false);
-			textArea.setBounds(177, 154, 444, 38);
-			panelDatos.add(textArea);
+			
+			txtfrase = new JTextField();
+			txtfrase.setEditable(false);
+			txtfrase.setBounds(177, 154, 444, 38);
+			panelDatos.add(txtfrase);
+			
 			
 			//SEGUNDA VENTANA, VINCULOS
 			
@@ -248,28 +258,29 @@ public class GUI {
 			tabbedPane.addTab("Material de apoyo", null, panelLinks, null);
 			panelLinks.setLayout(null);
 			
-			JComboBox comboBoxGrado = new JComboBox();
+			comboBoxGrado = new JComboBox();
 			comboBoxGrado.setBounds(66, 16, 228, 27);
-			comboBoxGrado.setModel(new DefaultComboBoxModel(new String[] {"Básicos", "Diversificado", "Universidad"}));
+			comboBoxGrado.setModel(new DefaultComboBoxModel(new String[] {"Basicos", "Diversificado", "Universidad"}));
 			panelLinks.add(comboBoxGrado);
 			
-			JComboBox comboBoxMateria = new JComboBox();
-			comboBoxMateria.setBounds(487, 16, 228, 27);
-			comboBoxMateria.setModel(new DefaultComboBoxModel(new String[] {"Matemática", "Literatura", "Biologia", "Sociales", "Inglés"}));
+			comboBoxMateria = new JComboBox();
+			comboBoxMateria.setBounds(320, 16, 228, 27);
+			comboBoxMateria.setModel(new DefaultComboBoxModel(new String[] {"Matematica", "Literatura", "Biologia", "Sociales", "Ingles"}));
 			panelLinks.add(comboBoxMateria);
 			
 			JScrollPane scrollPaneLinks = new JScrollPane();
 			scrollPaneLinks.setBounds(34, 67, 725, 385);
 			panelLinks.add(scrollPaneLinks);
 			
-			modelo2 = new DefaultTableModel(); 
-			modelo2.addColumn("Nombre Vinculo");
-			modelo2.addColumn("URL");
-			
 			tblLinks = new JTable();
 			scrollPaneLinks.setColumnHeaderView(tblLinks);
 			tblLinks.setFillsViewportHeight(true);
-			tblLinks.setModel(modelo2);
+			
+			
+			btnBuscar = new JButton("BUSCAR");
+			btnBuscar.setBounds(602, 15, 133, 28);
+			panelLinks.add(btnBuscar);
+			btnBuscar.addActionListener(new ButtonLisener());
 	
 	}
 	
@@ -316,21 +327,70 @@ public class GUI {
 	
 	}
 	
+	public int id(String clase, String nivel){
+		  MySQL mySql = new MySQL(); 
+		  Connection cnc = mySql.Conectar();
+		  if (clase.equals("Basicos")){
+			  String strSQL = "SELECT * FROM clase WHERE nombreClase='"+nivel+"'";
+			  try {
+				   Statement stm = cnc.createStatement();
+				   ResultSet rs = stm.executeQuery(strSQL);
+				   rs.next();
+					System.out.println(rs);
+					String resultado = rs.getString("idClase");
+					return Integer.parseInt(resultado);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		  }
+		  if (clase.equals("Diversificado")){
+			  String strSQL = "SELECT idClase FROM clase WHERE nombreClase='"+nivel+"'"; 
+			  try {
+				   Statement stm = cnc.createStatement();
+				   ResultSet rs = stm.executeQuery(strSQL);
+				   rs.next();
+					System.out.println(rs);
+					String resultado = rs.getString("idClase");
+					return Integer.parseInt(resultado);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		  }
+		  if(clase.equals("Universidad")){
+			  String strSQL = "SELECT idClase FROM clase WHERE nombreClase='"+nivel+"'"; 
+			  try {
+				   Statement stm = cnc.createStatement();
+				   ResultSet rs = stm.executeQuery(strSQL);
+				   rs.next();
+					System.out.println(rs);
+					String resultado = rs.getString("idClase");
+					return Integer.parseInt(resultado);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		  }
+		  
+		  return 0;
+	}
+	
 	//Tabla de vinculos
-	public void cargarTablaLinks(String clase, String nivel){
+	public void cargarTablaLinks(int id){
 		  
 		  String[] registros = new String[2];
 		  MySQL mySql = new MySQL(); 
 		  Connection cnc = mySql.Conectar();
-		  
-		  //String consulta = "SELECT idClase FROM clase WHERE CONCAT(nombreClase='"+clase+"'" , nivel= '"nivel"'" )";
-		  //Tratar con ifs
-		  //Tratar con Like
-		  //Si no se puede con tabla normal 
-		  
-		  String strSQL = "SELECT nombreVinculo, url FROM vinculo WHERE nombreVinculo  + url ";
+
+		 String strSQL = "SELECT nombreVinculo, url FROM vinculo WHERE claseID='"+id+"'"; 
 		  
 		  try {
+			  
+			  modelo2 = new DefaultTableModel(); 
+				modelo2.addColumn("Nombre Vinculo");
+				modelo2.addColumn("URL");
+				
 		   Statement stm = cnc.createStatement();
 		   ResultSet rs = stm.executeQuery(strSQL);
 		   
@@ -341,7 +401,9 @@ public class GUI {
 		    modelo2.addRow(registros);
 		   }
 		   
-		   tblLinks.setModel(modelo);
+		   tblLinks.setModel(modelo2);
+		   System.out.println("datos"+strSQL);
+		   System.out.println("TABLA"+ tblLinks);
 		   
 		  } catch (SQLException e) {
 		   JOptionPane.showMessageDialog(null,  e);
@@ -385,14 +447,23 @@ public class GUI {
 				
 				int n = pst.executeUpdate();
 				
-				//Vac�a los textfields
+				//Vac∩┐╜a los textfields
 				txtNombre.setText("");
 				txtAsignatura.setText("");
 				txtDescripcion.setText("");
 				((JTextField)elegirFecha.getDateEditor().getUiComponent()).setText("");
 				
+				txtfrase.setVisible(true);
+				txtfrase.setVisible(true);
+				String[] frases = {"Cada logro comienza con la decisión de intentarlo. -Gail Devers.", "No te preocupes por los fracasos, preocúpate por las oportunidades que pierdes cuando ni siquiera lo intentas.- Jack Canfield","El viaje es la recompensa.-Proverbio chino","El aprendizaje no es un deporte para espectadores.-D. Blocher.","La gente exitosa y no exitosa no varían mucho en sus habilidades. Varían en sus deseos de alcanzar su potencial.-John Maxwell.","No hay ascensor al éxito, tienes que tomar las escaleras.-Autor desconocido.","Tus aspiraciones son tus posibilidades.-Samuel Johnson","Lo único que se interpone entre tú y tu sueño es la voluntad de intentarlo y la creencia de que es posible conseguirlo.-Joel Brown"};
+				
 				tabla.setModel(new DefaultTableModel());
 				cargarTabla();
+				
+				Random randomito = new Random();
+				int elemento = randomito.nextInt(8);
+				System.out.println(frases[elemento]);
+				txtfrase.setText(frases[elemento]);
 			
 				if (n < 0){
 					JOptionPane.showMessageDialog(null, mensaje);
@@ -418,9 +489,27 @@ public class GUI {
 	if (e.getSource() == btnActualizar){
 		
 		try {
-			
 			cargarTabla();
 			
+		}
+		catch(Exception e1){
+			System.out.println(e1);
+		}
+	}	
+	
+	
+	if (e.getSource() == btnBuscar){
+		
+		try {
+			String nivel = comboBoxGrado.getSelectedItem().toString();
+			String clase = comboBoxMateria.getSelectedItem().toString();
+	
+			int id = id(nivel, clase);
+			cargarTablaLinks(id);
+			System.out.println(id);
+			//System.out.println(ca);
+			System.out.println(clase);
+			System.out.println(nivel);
 		}
 		catch(Exception e1){
 			System.out.println(e1);
@@ -429,3 +518,5 @@ public class GUI {
 	}
 	}
 }
+
+
