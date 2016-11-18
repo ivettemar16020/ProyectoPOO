@@ -105,6 +105,7 @@ public class GUI {
 	frame.setBounds(200, 200, 824, 564);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 5));
+	frame.setResizable(false); 
 	
 	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	frame.getContentPane().add(tabbedPane);
@@ -384,6 +385,8 @@ public class GUI {
 				pst.setInt(7, Pocket.idCurrentUser);
 				
 				int n = pst.executeUpdate();
+				
+				sSQL = "'SELECT * FROM tarea ORDER BY sqldate ASC'";
 				
 				//Vac�a los textfields
 				txtNombre.setText("");
