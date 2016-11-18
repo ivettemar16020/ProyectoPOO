@@ -28,7 +28,7 @@ public class Ventana1 extends JFrame {
 	public static JPasswordField psw_pass;
 	Usuario miUsuario = new Usuario();
 	final Pocket data = new Pocket();
-	final GUI window2 = new GUI();
+	private GUI window2;
 	final CrearUsr win3 = new CrearUsr();
 
 
@@ -76,8 +76,12 @@ public class Ventana1 extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (data.probarPass() == 1){
 					JOptionPane.showMessageDialog(null, "Bienvenido");
+					window2 = new GUI();
 					window2.frame.setVisible(true);
+					
+					
 					dispose();
+
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Error, usuario o contraseña incorrectas");

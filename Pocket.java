@@ -17,6 +17,8 @@ public class Pocket {
 	//Atributos
 	private Tarea tarea;	
 	private Tarea[] arrTareas;
+	public static int idCurrentUser = 0;
+	
 	/**
 	 * @param tarea		
 	 * @param materia
@@ -86,7 +88,10 @@ public class Pocket {
 				ResultSet rs = st.executeQuery(sSQL);
 		    	
 				if(rs.next()){
-
+					// se guarda el idUsuario en una variable global
+					String id = rs.getString("idUsuario");
+					System.out.println(id);
+					idCurrentUser = Integer.parseInt(id);
 		            resultado=1;
 
 		        }

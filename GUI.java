@@ -35,7 +35,6 @@ import javax.swing.JTextArea;
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +63,7 @@ public class GUI {
 	private JDateChooser elegirFecha;
 	private JSlider sliderAgrado;
 	private JSlider sliderDificultad;
+	private JButton btnActualizar;
 	
 	/**
 	* Launch the application.
@@ -85,18 +85,18 @@ public class GUI {
 	* Create the application.
 	*/
 	public GUI() {
-	initialize();
+		initialize();
 	}
 	
 	/**
 	* Initialize the contents of the frame.
 	*/
 	private void initialize() {
+		
 	
 	miUsuario = new Usuario();
-	
 	frame = new JFrame();
-	frame.setBounds(200, 200, 604, 360);
+	frame.setBounds(200, 200, 595, 349);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 5));
 	
@@ -201,17 +201,11 @@ public class GUI {
 	sliderAgrado.setMaximum(5);
 	sliderAgrado.setValue(3);
 	sliderAgrado.setMinimum(1);
-	int value = sliderAgrado.getValue();
-	int min = sliderAgrado.getMinimum();
-	int max = sliderAgrado.getMaximum();
+
 	panel_1.add(sliderAgrado);
 	
 	JLabel lblMucho_1 = new JLabel("Mucho");
 	panel_1.add(lblMucho_1);
-	
-	Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-	horizontalStrut_1.setBounds(392, 107, 191, 21);
-	panelDatos.add(horizontalStrut_1);
 	
 	JPanel panelTabla = new JPanel();
 	panelTabla.setBounds(0, 139, 583, 154);
@@ -221,22 +215,72 @@ public class GUI {
 	JScrollPane scrollPane = new JScrollPane();
 	panelTabla.add(scrollPane);
 	
+	tabla = new JTable();
+	tabla.setFillsViewportHeight(true);
+	scrollPane.setViewportView(tabla);
+	
 	modelo = new DefaultTableModel(); 
 	modelo.addColumn("Nombre");
 	modelo.addColumn("Asignatura");
 	modelo.addColumn("Descripcion");
 	modelo.addColumn("Fecha de Entrega");
 	
-	tabla = new JTable();
-	tabla.setFillsViewportHeight(true);
-	scrollPane.setViewportView(tabla);
-	tabla.setModel(modelo);
+	
+	
+	btnActualizar = new JButton("Actualizar");
+	btnActualizar.setBounds(438, 106, 89, 23);
+	panelDatos.add(btnActualizar);
+	btnActualizar.addActionListener(new ButtonLisener());
+	
+	
 	
 	JPanel panel_2 = new JPanel();
 	tabbedPane.addTab("New tab", null, panel_2, null);
 	
+	}
 	
 	
+	
+	
+	public void cargarTabla(){
+		
+		String sSQL="SELECT nombreTarea, descripcionTarea, asignatura, fechaE FROM tarea WHERE usuarioID='"+Pocket.idCurrentUser+"'";
+		MySQL mysql = new MySQL();
+		Connection cn = mysql.Conectar();
+		Statement st;
+		
+		String[] registro = new String[4];
+		
+		try {
+			
+			modelo = new DefaultTableModel(); 
+			modelo.addColumn("Nombre");
+			modelo.addColumn("Asignatura");
+			modelo.addColumn("Descripcion");
+			modelo.addColumn("Fecha de Entrega");
+			st = cn.createStatement();
+			System.out.println(st);
+			ResultSet rs = st.executeQuery(sSQL);
+			System.out.println(rs);
+			System.out.println(sSQL);
+			
+			while (rs.next()){
+				registro[0] = rs.getString("nombreTarea");
+				registro[1] = rs.getString("descripcionTarea");
+				registro[2] = rs.getString("asignatura");
+				registro[3] = rs.getString("fechaE");
+				System.out.println(modelo);
+				modelo.addRow(registro);
+				tabla.setModel(modelo);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 	
 	private class ButtonLisener implements  ActionListener{
@@ -260,8 +304,8 @@ public class GUI {
 				int dificultad = sliderDificultad.getValue();
 				
 				//Inserta los datos en la base de datos
-				String sSQL = "INSERT INTO tarea(nombreTarea, descripcionTarea, asignatura, fechaE, gusto, dificultad)"
-						+ "VALUES(?,?,?,?,?,?)";
+				String sSQL = "INSERT INTO tarea(nombreTarea, descripcionTarea, asignatura, fechaE, gusto, dificultad, usuarioID)"
+						+ "VALUES(?,?,?,?,?,?,?)";
 				String mensaje = "Los datos se han insertado de manera satisfactoria";
 				
 				PreparedStatement pst = cn.prepareStatement(sSQL);
@@ -271,6 +315,7 @@ public class GUI {
 				pst.setDate(4, sqldate);
 				pst.setInt(5, gusto);
 				pst.setInt(6, dificultad);
+				pst.setInt(7, Pocket.idCurrentUser);
 				
 				int n = pst.executeUpdate();
 				
@@ -280,6 +325,9 @@ public class GUI {
 				txtDescripcion.setText("");
 				((JTextField)elegirFecha.getDateEditor().getUiComponent()).setText("");
 				
+				tabla.setModel(new DefaultTableModel());
+				cargarTabla();
+			
 				if (n < 0){
 					JOptionPane.showMessageDialog(null, mensaje);
 				}
@@ -300,29 +348,19 @@ public class GUI {
 	System.out.println("Error");
 	}
 	}
+	
+	if (e.getSource() == btnActualizar){
+		
+		try {
+			
+			cargarTabla();
+			
+		}
+		catch(Exception e1){
+			System.out.println(e1);
+		}
 	}	
 	}
-	
-	
-	private void addPopup(Component component, final JPopupMenu popup) {
-	component.addMouseListener(new MouseAdapter() {
-	public void mousePressed(MouseEvent e) {
-	if (e.isPopupTrigger()) {
-	showMenu(e);
-	}
-	}
-	public void mouseReleased(MouseEvent e) {
-	if (e.isPopupTrigger()) {
-	showMenu(e);
-	}
-	}
-	private void showMenu(MouseEvent e) {
-	popup.show(e.getComponent(), e.getX(), e.getY());
-	}
-	});
-	}
-	
-	public void stateChanged(ChangeEvent e){
-		JSlider source = (JSlider)e.getSource();
 	}
 }
+
