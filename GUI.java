@@ -386,6 +386,8 @@ public class GUI {
 				
 				int n = pst.executeUpdate();
 				
+				sSQL = "'SELECT * FROM tarea ORDER BY sqldate ASC'";
+				
 				//Vac�a los textfields
 				txtNombre.setText("");
 				txtAsignatura.setText("");
