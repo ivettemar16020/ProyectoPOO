@@ -2,7 +2,6 @@
  * @author Grupo 5
  * @date 30/09/16
  * @file: GUI.java
- * Esto es un comentario de prueba
  */
 
 import java.awt.EventQueue;
