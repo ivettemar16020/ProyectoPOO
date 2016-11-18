@@ -80,6 +80,9 @@ public class GUI {
 	/**
 	* Launch the application.
 	*/
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 	EventQueue.invokeLater(new Runnable() {
 	public void run() {
@@ -329,6 +332,11 @@ public class GUI {
 	
 	}
 	
+	/**
+	 * @param clase
+	 * @param nivel
+	 * @return int
+	 */
 	public int id(String clase, String nivel){
 		  MySQL mySql = new MySQL(); 
 		  Connection cnc = mySql.Conectar();
@@ -379,6 +387,9 @@ public class GUI {
 	}
 	
 	//Tabla de vinculos
+	/**
+	 * @param id
+	 */
 	public void cargarTablaLinks(int id){
 		  
 		  String[] registros = new String[2];
@@ -415,6 +426,9 @@ public class GUI {
 	
 	private class ButtonLisener implements  ActionListener{
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub

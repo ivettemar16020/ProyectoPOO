@@ -46,6 +46,10 @@ public class Pocket {
 		
 
 	
+		/**
+		 * @param e
+		 * @return 0
+		 */
 		public int comparar(Tarea e){
 			if (tarea.getFechaEntrega() < e.getFechaEntrega() && tarea.getDificultad() < e.getDificultad()){
 				return -1;
@@ -55,11 +59,17 @@ public class Pocket {
 			}
 			return 0;
 		}
+		/**
+		 * @param array
+		 */
 		static void imprimirTareas(Tarea[] array){
 			for (int i = 1; i < array.length; i++){
 				System.out.println((i+1) + ". " + array[1].toString());
 			}
 		}
+		/**
+		 * Organiza
+		 */
 		public void organizador(){
 			Arrays.sort(arrTareas);
 			imprimirTareas(arrTareas);
@@ -99,7 +109,7 @@ public class Pocket {
 				
 		    } catch (SQLException ex) {
 
-		        JOptionPane.showMessageDialog(null, ex, "Error de conexión", JOptionPane.ERROR_MESSAGE);
+		        JOptionPane.showMessageDialog(null, ex, "Error de conexiï¿½n", JOptionPane.ERROR_MESSAGE);
 
 		    }finally{
 
@@ -110,7 +120,7 @@ public class Pocket {
 
 		        } catch (SQLException ex) {
 
-		            JOptionPane.showMessageDialog(null, ex, "Error de desconexión", JOptionPane.ERROR_MESSAGE);
+		            JOptionPane.showMessageDialog(null, ex, "Error de desconexiï¿½n", JOptionPane.ERROR_MESSAGE);
 
 		        }
 
