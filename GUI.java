@@ -4,6 +4,7 @@
  * @file: GUI.java
  * Esto es un comentario de prueba
  */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -257,6 +258,7 @@ public class GUI {
 			modelo.addColumn("Asignatura");
 			modelo.addColumn("Descripcion");
 			modelo.addColumn("Fecha de Entrega");
+			
 			st = cn.createStatement();
 			System.out.println(st);
 			ResultSet rs = st.executeQuery(sSQL);
