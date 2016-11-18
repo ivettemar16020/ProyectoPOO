@@ -75,7 +75,7 @@ public class GUI {
 	private JComboBox comboBoxGrado;
 	private JComboBox comboBoxMateria;
 	private JButton btnBuscar;
-	private JTextField txtfrase;
+	private JTextArea txtfrase;
 	
 	/**
 	* Launch the application.
@@ -246,7 +246,7 @@ public class GUI {
 			btnActualizar.addActionListener(new ButtonLisener());
 			
 			
-			txtfrase = new JTextField();
+			txtfrase = new JTextArea();
 			txtfrase.setEditable(false);
 			txtfrase.setBounds(177, 154, 444, 38);
 			panelDatos.add(txtfrase);
@@ -318,6 +318,8 @@ public class GUI {
 				System.out.println(modelo);
 				modelo.addRow(registro);
 				tabla.setModel(modelo);
+				//Esto ordena dependiendo de lo que elija el usuario
+				tabla.setRowSorter(new TableRowSorter(modelo));
 			}
 			
 		} catch (SQLException e) {
@@ -478,7 +480,6 @@ public class GUI {
 	
 	if (e.getSource() == btnEliminar){
 	try {
-	System.out.println("Funciona");	
 	modelo.removeRow(tabla.getSelectedRow());//Elimna la fila selecionada por el usuario
 	}
 	catch (Exception e1){
