@@ -318,33 +318,37 @@ public class GUI {
 	}
 	
 	//Tabla de vinculos
-	public void cargarTablaLinks(String valor){
-		String[] registros = new String[1];
-		String strSQL = "";
-		
-		MySQL mySql = new MySQL(); 
-		Connection cnc = mySql.Conectar();
-		
-		strSQL = "SELECT nombreVinculo, url FROM vinculo WHERE nombreVinculo * + url *";
-		
-		try {
-			Statement stm = cnc.createStatement();
-			ResultSet rs = stm.executeQuery(strSQL);
-			
-			while(rs.next())
-			{
-				registros[0] = rs.getString("nombreVinculo");
-				registros[1] = rs.getString("url");
-				modelo2.addRow(registros);
-			}
-			
-			tblLinks.setModel(modelo);
-			
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,  e);
-		}
-		
-	}
+	public void cargarTablaLinks(String clase, String nivel){
+		  
+		  String[] registros = new String[2];
+		  MySQL mySql = new MySQL(); 
+		  Connection cnc = mySql.Conectar();
+		  
+		  //String consulta = "SELECT idClase FROM clase WHERE CONCAT(nombreClase='"+clase+"'" , nivel= '"nivel"'" )";
+		  //Tratar con ifs
+		  //Tratar con Like
+		  //Si no se puede con tabla normal 
+		  
+		  String strSQL = "SELECT nombreVinculo, url FROM vinculo WHERE nombreVinculo  + url ";
+		  
+		  try {
+		   Statement stm = cnc.createStatement();
+		   ResultSet rs = stm.executeQuery(strSQL);
+		   
+		   while(rs.next())
+		   {
+		    registros[0] = rs.getString("nombreVinculo");
+		    registros[1] = rs.getString("url");
+		    modelo2.addRow(registros);
+		   }
+		   
+		   tblLinks.setModel(modelo);
+		   
+		  } catch (SQLException e) {
+		   JOptionPane.showMessageDialog(null,  e);
+		  }
+		  
+		 }
 	
 	private class ButtonLisener implements  ActionListener{
 
