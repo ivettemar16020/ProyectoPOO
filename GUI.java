@@ -29,8 +29,11 @@ import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
@@ -48,6 +51,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.JTabbedPane;
 
 import BaseDatos.MySQL;
+import java.awt.Color;
 
 public class GUI {
 
@@ -60,10 +64,12 @@ public class GUI {
 	private Usuario miUsuario;
 	private JTable tabla;
 	private DefaultTableModel modelo;
+	private DefaultTableModel modelo2;
 	private JDateChooser elegirFecha;
 	private JSlider sliderAgrado;
 	private JSlider sliderDificultad;
 	private JButton btnActualizar;
+	private JTable tblLinks;
 	
 	/**
 	* Launch the application.
@@ -96,15 +102,22 @@ public class GUI {
 	
 	miUsuario = new Usuario();
 	frame = new JFrame();
-	frame.setBounds(200, 200, 595, 349);
+	frame.setResizable(false);
+	frame.setBounds(200, 200, 824, 564);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 5));
 	
 	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	frame.getContentPane().add(tabbedPane);
 	
+	modelo = new DefaultTableModel(); 
+	modelo.addColumn("Nombre");
+	modelo.addColumn("Asignatura");
+	modelo.addColumn("Descripcion");
+	modelo.addColumn("Fecha de Entrega");
+	
 	JPanel panelDatos = new JPanel();
-	tabbedPane.addTab("New tab", null, panelDatos, null);
+	tabbedPane.addTab("Registro de tareas", null, panelDatos, null);
 	panelDatos.setLayout(null);
 	
 	JLabel lblNombre = new JLabel("Nombre");
@@ -196,52 +209,74 @@ public class GUI {
 	
 	JLabel lblPoco_1 = new JLabel("Poco");
 	panel_1.add(lblPoco_1);
-
-	sliderAgrado = new JSlider();
-	sliderAgrado.setMaximum(5);
-	sliderAgrado.setValue(3);
-	sliderAgrado.setMinimum(1);
-
-	panel_1.add(sliderAgrado);
 	
-	JLabel lblMucho_1 = new JLabel("Mucho");
-	panel_1.add(lblMucho_1);
-	
-	JPanel panelTabla = new JPanel();
-	panelTabla.setBounds(0, 139, 583, 154);
-	panelDatos.add(panelTabla);
-	panelTabla.setLayout(new GridLayout(0, 1, 0, 0));
-	
-	JScrollPane scrollPane = new JScrollPane();
-	panelTabla.add(scrollPane);
-	
-	tabla = new JTable();
-	tabla.setFillsViewportHeight(true);
-	scrollPane.setViewportView(tabla);
-	
-	modelo = new DefaultTableModel(); 
-	modelo.addColumn("Nombre");
-	modelo.addColumn("Asignatura");
-	modelo.addColumn("Descripcion");
-	modelo.addColumn("Fecha de Entrega");
-	
-	
-	
-	btnActualizar = new JButton("Actualizar");
-	btnActualizar.setBounds(438, 106, 89, 23);
-	panelDatos.add(btnActualizar);
-	btnActualizar.addActionListener(new ButtonLisener());
-	
-	
-	
-	JPanel panel_2 = new JPanel();
-	tabbedPane.addTab("New tab", null, panel_2, null);
+		sliderAgrado = new JSlider();
+		sliderAgrado.setMaximum(5);
+		sliderAgrado.setValue(3);
+		sliderAgrado.setMinimum(1);
+		
+			panel_1.add(sliderAgrado);
+			
+			JLabel lblMucho_1 = new JLabel("Mucho");
+			panel_1.add(lblMucho_1);
+			
+			JPanel panelTabla = new JPanel();
+			panelTabla.setBounds(6, 204, 791, 271);
+			panelDatos.add(panelTabla);
+			panelTabla.setLayout(null);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(0, 0, 791, 271);
+			panelTabla.add(scrollPane);
+			
+			tabla = new JTable();
+			tabla.setBackground(new Color(255, 255, 255));
+			tabla.setFillsViewportHeight(true);
+			scrollPane.setViewportView(tabla);
+		
+			btnActualizar = new JButton("Actualizar");
+			btnActualizar.setBounds(631, 15, 140, 38);
+			panelDatos.add(btnActualizar);
+			
+			JTextArea textArea = new JTextArea();
+			textArea.setEditable(false);
+			textArea.setBounds(177, 154, 444, 38);
+			panelDatos.add(textArea);
+			
+			//SEGUNDA VENTANA, VINCULOS
+			
+			JPanel panelLinks = new JPanel();
+			tabbedPane.addTab("Material de apoyo", null, panelLinks, null);
+			panelLinks.setLayout(null);
+			
+			JComboBox comboBoxGrado = new JComboBox();
+			comboBoxGrado.setBounds(66, 16, 228, 27);
+			comboBoxGrado.setModel(new DefaultComboBoxModel(new String[] {"Básicos", "Diversificado", "Universidad"}));
+			panelLinks.add(comboBoxGrado);
+			
+			JComboBox comboBoxMateria = new JComboBox();
+			comboBoxMateria.setBounds(487, 16, 228, 27);
+			comboBoxMateria.setModel(new DefaultComboBoxModel(new String[] {"Matemática", "Literatura", "Biologia", "Sociales", "Inglés"}));
+			panelLinks.add(comboBoxMateria);
+			
+			JScrollPane scrollPaneLinks = new JScrollPane();
+			scrollPaneLinks.setBounds(34, 67, 725, 385);
+			panelLinks.add(scrollPaneLinks);
+			
+			modelo2 = new DefaultTableModel(); 
+			modelo2.addColumn("Nombre Vinculo");
+			modelo2.addColumn("URL");
+			
+			tblLinks = new JTable();
+			scrollPaneLinks.setColumnHeaderView(tblLinks);
+			tblLinks.setFillsViewportHeight(true);
+			tblLinks.setModel(modelo2);
 	
 	}
 	
 	
 	
-	
+	//Tabla de tareas
 	public void cargarTabla(){
 		
 		String sSQL="SELECT nombreTarea, descripcionTarea, asignatura, fechaE FROM tarea WHERE usuarioID='"+Pocket.idCurrentUser+"'";
@@ -279,8 +314,35 @@ public class GUI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
+	}
+	
+	//Tabla de vinculos
+	public void cargarTablaLinks(String valor){
+		String[] registros = new String[1];
+		String strSQL = "";
 		
+		MySQL mySql = new MySQL(); 
+		Connection cnc = mySql.Conectar();
 		
+		strSQL = "SELECT nombreVinculo, url FROM vinculo WHERE nombreVinculo * + url *";
+		
+		try {
+			Statement stm = cnc.createStatement();
+			ResultSet rs = stm.executeQuery(strSQL);
+			
+			while(rs.next())
+			{
+				registros[0] = rs.getString("nombreVinculo");
+				registros[1] = rs.getString("url");
+				modelo2.addRow(registros);
+			}
+			
+			tblLinks.setModel(modelo);
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,  e);
+		}
 		
 	}
 	
@@ -320,7 +382,7 @@ public class GUI {
 				
 				int n = pst.executeUpdate();
 				
-				//Vac�a los textfields
+				//Vac�a los textfields
 				txtNombre.setText("");
 				txtAsignatura.setText("");
 				txtDescripcion.setText("");
