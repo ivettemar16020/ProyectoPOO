@@ -3,7 +3,6 @@
  * @date 30/09/16
  * @file: GUI.java
  * Esto es un comentario de prueba
- * Que divertido
  */
 import java.awt.EventQueue;
 
@@ -319,7 +318,7 @@ public class GUI {
 				
 				int n = pst.executeUpdate();
 				
-				//VacÃ­a los textfields
+				//Vacía los textfields
 				txtNombre.setText("");
 				txtAsignatura.setText("");
 				txtDescripcion.setText("");
